@@ -113,6 +113,14 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt --depth=1
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+    - name: Copy custom files
+      run: |
+        if [ -d "files" ]; then
+          echo "Copying custom files to openwrt directory..."
+          cp -r files/* openwrt/
+        else
+          echo "No custom files directory found"
+        fi
 
     - name: Link cached source
       if: steps.cache-openwrt.outputs.cache-hit == 'true'
